@@ -36,9 +36,11 @@ layout: default
           </div>
           {%- endif %}
 
-          <div class="clearfix">
+          <div class="clearfix text-justify">
             {{ content }}
           </div>
+
+          <!-- {%- include work_experience.html %} -->
 
           <!-- News -->
           {% if page.news and site.announcements.enabled -%}
