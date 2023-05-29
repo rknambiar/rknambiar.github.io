@@ -1,97 +1,46 @@
-- title: General Information
-  type: map
+- title: Experience
+  type: time_table
   contents:
-    - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
-    - name: Languages
-      value: English, German
+    - title: CVML Research Engineer II
+      institution: Tangible Play (Osmo)
+      year: Jul'19 - Present
+      description:
+        - Building interactive educational games using computer vision
+          and machine learning for kids. Some of the math games that I worked
+          on can be found <a href="https://www.amazon.com/Osmo-Measurement-Estimating-Curriculum-Inspired-Required/dp/B08H8GS32R/ref=pd_bxgy_sccl_2/132-0380844-1174013?pd_rd_w=3kX2Y&content-id=amzn1.sym.7757a8b5-874e-4a67-9d85-54ed32f01737&pf_rd_p=7757a8b5-874e-4a67-9d85-54ed32f01737&pf_rd_r=FY34AEFZTTQES6DSYR70&pd_rd_wg=0nYYc&pd_rd_r=d113f67c-09b6-44e0-ad9b-2d65e2c970d5&pd_rd_i=B08H8GS32R&th=1" className="text-blue-600 hover:text-blue-800">here </a>
+          on Amazon.
+        - Our work on <a href="https://mathai4ed.github.io/papers/papers/paper_11.pdf">
+          "Gamifying Math Education using Object Detection"
+          </a> was presented at the NeurIPS 2021 workshop on Math AI for Education (MATHAI4ED)
+        - Led the development efforts for our core C++ vision library and prototyped new camera hardware devices.
+
+    - title: Machine Vision Automation Intern
+      institution: Magic Leap
+      year: Summer 2018
+      description:
+        - Researched and developed a deep learning based image recognition 
+          and image comparison framework using tensorflow and python. Improved 
+          accuracy for scene and image classification tests.
+        - Implemented end-to-end transfer learning on the VGG-19 network by 
+          creating a new dataset for image classification and compared different 
+          feature detection and triplet based learning algorithms for image similarity.
+
+    - title: Graduate Research Assistant
+      institution: RCPS Lab, UMD
+      year: Feb'18 - May'19
+      description:
+        - Research on creating a motion-planning framework using Tensorflow. Implemented the 
+          QuickXplain algorithm in Python used for constrained optimization.
+        - Implemented multi-robot motion planner in adversarial environments using 
+          temporal logic for mobile robots. Published in ICRA 2019.
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
-      description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+    - title: Master's of Engineering in Robotics
+      institution: University of Maryland, College Park
+      year: 2017 - 2019
 
-- title: Experience
-  type: time_table
-  contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
-      description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
-      description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
-      description:
-
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
-  type: time_table
-  contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
-
-- title: Honors and Awards
-  type: time_table
-  contents:
-    - year: 1921
-      items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
-      items: 
-        - Max Planck Medal
-
-- title: Academic Interests
-  type: nested_list
-  contents:
-    - title: Topic 1.
-      items: 
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
-      items:
-        - Description 1.
-        - Description 2.
-
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+    - title: Bachelor of Engineering in Electronics and Telecommunications
+      institution: University of Pune, India
+      year: 2012 - 2016
