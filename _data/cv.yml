@@ -44,3 +44,46 @@
     - title: Bachelor of Engineering in Electronics and Telecommunications
       institution: University of Pune, India
       year: 2012 - 2016
+
+- title: Publications & Patents
+  type: pub
+  contents:
+    - title: Detection and virtualization of handwritten objects
+      authors: Jerome Scholler, Vivek Vidyasagaran, <u>Rohitkrishna Nambiar</u>, Yueqiu Sun
+      year: 2023
+      preview: pat_1.png
+      link: https://patents.google.com/patent/WO2023060207A1/en?inventor=Rohitkrishna+NAMBIAR
+      type: patent
+      abbr: patent
+    
+    - title: Detection and virtualization of tangible object dimensions
+      authors: Vivek Vidyasagaran, Yueqiu Sun, <u>Rohitkrishna Nambiar</u>, Vivardhan Kanoria
+      year: 2022
+      preview: pat_1.png
+      link: https://patents.google.com/patent/WO2022072733A1/en?inventor=rohitkrishna
+      type: patent
+      abbr: patent
+
+    - title: Gamifying Math Education using Object Detection
+      authors: Yueqiu Sun, <u>Rohitkrishna Nambiar</u> and Vivek Vidyasagaran
+      year: 2021
+      venue: NeurIPS'21 MATHAI4ED Workshop
+      preview: pub_1.png
+      link: https://mathai4ed.github.io/papers/papers/paper_11.pdf
+      type: publication
+
+    - title: Dos-resilient multi-robot temporal logic motion planning
+      authors: Xiaowu Sun*, <u>Rohitkrishna Nambiar*</u>, Matthew Melhorn, Yasser Shoukry and Pierluigi Nuzzo
+      year: 2019
+      venue: ICRA'19
+      preview: pub_2.png
+      link: https://par.nsf.gov/servlets/purl/10114162
+      type: publication
+
+    - title: Single mosfet and relay based DC motor driver for navigational robots
+      authors: Nishant Shrivastava* and <u>Rohitkrishna Nambiar*</u>
+      year: 2016
+      venue: ICAARS'16
+      preview: pub_3.png
+      link: https://link.springer.com/article/10.1007/s40012-016-0126-8
+      type: publication

@@ -1,0 +1,48 @@
+<div class="publications">
+<ul class="card-text font-weight-light list-group list-group-flush">
+    {% for content in entry.contents %}
+      <li class="list-group-item">
+        <div class="row">
+            <div class="col-sm-2 {% if entry.preview %}preview{% else %}abbr{% endif %}">
+                {%- if content.preview -%}
+                {% if content.preview contains '://' -%}
+                <img class="preview z-depth-1 rounded" src="{{ entry.preview }}">
+                {%- else -%}
+                    {%- assign entry_path = content.preview | prepend: '/assets/img/publication/' -%}
+                    {% include figure.html
+                    path=entry_path
+                    class="preview z-depth-1 rounded"
+                    alt=content.preview -%}
+                {%- endif -%}
+                {%- elsif content.abbr -%}
+                {%- if site.data.venues[content.abbr] -%}
+                    {%- assign venue_style = nil -%}
+                    {%- if site.data.venues[content.abbr].color != blank -%}
+                    {%- assign venue_style = site.data.venues[content.abbr].color | prepend: 'style="background-color:' | append: '"' -%}
+                    {%- endif -%}
+                    <abbr class="badge" {% if venue_style %}{{venue_style}}{% endif %}><a href="{{site.data.venues[entry.abbr].url}}">{{content.abbr}}</a></abbr>
+                {%- else -%}
+                    <abbr class="badge">{{content.abbr}}</abbr>
+                {%- endif -%}
+                {%- endif -%}
+            </div>
+            <div class="col-xs-10 cl-sm-10 col-md-10 mt-2 mt-md-0">
+                {% if content.title %}
+                <h6 class="title font-weight-bold ml-1 ml-md-4"><a href="{{ content.link }}">{{content.title}}</a></h6>
+                {% endif %}
+                {% if content.authors %}
+                <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem;">{{content.authors}}</h6>
+                {% endif %}
+                {% if content.year %}
+                    <div class="col-xs-2 cl-sm-2 ml-1 col-md-4 text-center" style="width: 75px;">
+                    <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px;">
+                        {{ content.year }}
+                    </span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+      </li>
+    {% endfor %}
+</ul>
+</div>
