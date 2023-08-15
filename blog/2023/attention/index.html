@@ -10,10 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>2022 | Rohit Nambiar</title>
+    <title>paying attention to attention | Rohit Nambiar</title>
     <meta name="author" content="Rohitkrishna R. Nambiar">
-    <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+    <meta name="description" content="trying to understand what attention is all about">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -30,13 +29,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
 
     
+    <!-- Sidebar Table of Contents -->
+    <link href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" rel="stylesheet">
+    
 
     <!-- Styles -->
     
     <link rel="shortcut icon" href="/assets/img/icon.jpg">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://rknambiar.github.io/blog/2022/">
+    <link rel="canonical" href="https://rknambiar.github.io/blog/2023/attention/">
 
     <!-- Dark Mode -->
     
@@ -101,44 +103,80 @@
     <!-- Content -->
     <div class="container mt-5">
       
-        <div class="post">
+        
+        <div class="row">
+          <!-- sidebar, which will move to the top on a small screen -->
+          <div class="col-sm-3">
+            <nav id="toc-sidebar" class="sticky-top"></nav>
+          </div>
+          <!-- main content area -->
+          <div class="col-sm-9">
+            <!-- _layouts/post.html -->
+
+<div class="post">
 
   <header class="post-header">
-    <h1 class="post-title"> <i class="fas fa-calendar fa-sm"></i> 2022 </h1>
-    <p class="post-description"> an archive of posts from this year </p>
+    <h1 class="post-title">paying attention to attention</h1>
+    <p class="post-meta">August 15, 2023</p>
+    <p class="post-tags">
+      <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>
+        ·  
+        <a href="/blog/category/attention">
+          <i class="fas fa-tag fa-sm"></i> attention</a>  
+          <a href="/blog/category/deep-learning">
+          <i class="fas fa-tag fa-sm"></i> deep-learning</a>  
+          <a href="/blog/category/transformers">
+          <i class="fas fa-tag fa-sm"></i> transformers</a>  
+          
+
+    </p>
   </header>
 
-  <article>
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-        <tr>
-          <th scope="row">Dec 10, 2022</th>
-          <td>
-              <a class="post-link" href="/blog/2022/giscus-comments/">a post with giscus comments</a>
-          </td>
-        </tr>
-      
-        <tr>
-          <th scope="row">Apr 23, 2022</th>
-          <td>
-              <a class="post-link" href="/blog/2022/displaying-external-posts-on-your-al-folio-blog/">Displaying External Posts on Your al-folio Blog</a>
-          </td>
-        </tr>
-      
-        <tr>
-          <th scope="row">Feb 1, 2022</th>
-          <td>
-              <a class="post-link" href="/blog/2022/redirect/">a post with redirect</a>
-          </td>
-        </tr>
-      
-      </table>
-    </div>
-  </article>
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <p>Before I explain what transformers are, let’s talk about attention. I know there are already many great posts on this topic, but I wanted to write my own in an attempt to better understand and learn important concepts in machine learning. I have used some of the publicly available content in this post, so will try my best to cite them as needed.</p>
 
+<p>We will be covering the following papers:</p>
+<ul>
+  <li><a href="https://arxiv.org/pdf/1409.0473.pdf" rel="external nofollow noopener" target="_blank">Neural Machine Translation by Jointly Learning to Align and Translate</a></li>
+  <li><a href="https://arxiv.org/pdf/1508.04025.pdf" rel="external nofollow noopener" target="_blank">Effective Approaches to Attention-based Neural Machine Translation</a></li>
+</ul>
+
+    </div>
+  </article><div id="giscus_thread" style="max-width: 800px; margin: 0 auto;">
+  <script>
+    let giscusTheme = localStorage.getItem("theme");
+    let giscusAttributes = {
+        "src": "https://giscus.app/client.js",
+        "data-repo": "alshedivat/al-folio",
+        "data-repo-id": "MDEwOlJlcG9zaXRvcnk2MDAyNDM2NQ==",
+        "data-category": "Comments",
+        "data-category-id": "DIC_kwDOA5PmLc4CTBt6",
+        "data-mapping": "title",
+        "data-strict": "1",
+        "data-reactions-enabled": "1",
+        "data-emit-metadata": "0",
+        "data-input-position": "bottom",
+        "data-theme": giscusTheme,
+        "data-lang": "en",
+        "crossorigin": "anonymous",
+        "async": "",
+    };
+
+
+    let giscusScript = document.createElement("script");
+    Object.entries(giscusAttributes).forEach(([key, value]) => giscusScript.setAttribute(key, value));
+    document.getElementById("giscus_thread").appendChild(giscusScript);
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://giscus.app/?ref_noscript" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+</noscript>
+</div>
 </div>
 
+          </div>
+        </div>
+        
       
     </div>
 
@@ -146,7 +184,7 @@
     <footer class="fixed-bottom">
       <div class="container mt-0">
         © Copyright 2023 Rohitkrishna R. Nambiar. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
-Last updated: May 30, 2023.
+Last updated: August 15, 2023.
       </div>
     </footer>
 
@@ -166,6 +204,9 @@ Last updated: May 30, 2023.
   <!-- Medium Zoom JS -->
   <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.8/dist/medium-zoom.min.js" integrity="sha256-7PhEpEWEW0XXQ0k6kQrPKwuoIomz8R8IYyuU1Qew4P8=" crossorigin="anonymous"></script>
   <script defer src="/assets/js/zoom.js"></script>
+  <!-- Sidebar Table of Contents -->
+  <script defer src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+
 
   <!-- Load Common JS -->
   <script defer src="/assets/js/common.js"></script>
