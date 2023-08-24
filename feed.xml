@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-23T01:03:30+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-24T05:42:18+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">paying attention to transformers</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="paying attention to transformers" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore transformers by understanding the motivation for neural machine translation and attention. Let’s go!</p>
 
 <!-- ---
@@ -46,4 +46,82 @@ bahdanau soft attention is like global attention.
 
 <h2 id="attention-based-models">Attention-based Models</h2>
 
-<p>Attention-based models address the above problem by <i>looking</i> at the entire input sequence before generating a new word. As mentioned in <d-cite key="bahdanau2014neural"></d-cite>, each time the model generates a new word, it (soft-)searches for a set of positions in a source sentence where most relevant information is concentrated. The model then predicts the target word based on the context vectors and the previous generated target word. Let’s explore this a bit.</p>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[getting to transformers through machine translation and attention]]></summary></entry></feed>
+<p>Attention-based models address the above problem by <i>looking</i> at the entire input sequence before generating a new word. As mentioned in <d-cite key="bahdanau2014neural"></d-cite>, each time the model generates a new word, it (soft-)searches for a set of positions in a source sentence where most relevant information is concentrated. The model then predicts the target word based on the context vectors and the previous generated target word. This is shown in the figure below (blue block). Let’s explore this a bit.</p>
+
+<div class="col-sm mt-3 mt-md-0">
+    <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-rnn-attention-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-rnn-attention-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-rnn-attention-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-rnn-attention.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+</div>
+<div class="caption">
+    Encoder-Decoder architecture with attention
+</div>
+
+<h3 id="attention-block">Attention block</h3>
+
+<p>Let’s explore the attention block in a bit more detail. The inputs to this block while decoding at time \(t\) are the encoder hidden states \((h_1, h_2, ... h_n)\) and the previous decoder hidden state \(s_{t-1}\). The output is a context-vector \(c_t\) which is input along with the input token to the decoder. This is shown in the figure below</p>
+
+<div class="col-sm mt-3 mt-md-0">
+    <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-attention-block-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-attention-block-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-attention-block-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-attention-block.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+</div>
+<div class="caption">
+    Attention block
+</div>
+
+<p>First, we compute scores (\(e_{ij}\)) using the alignment model.</p>
+
+<p>\begin{equation}
+e_{ij} = a(s_{j-1}, h_j)
+\end{equation}</p>
+
+<p>It tells us how well the inputs around position \(j\) and the output at position \(i\) match. Then we pass the scores through a softmax function to compute the weight \(\alpha_{ij}\) of each \(h_j\).</p>
+
+<p>\begin{equation}
+\alpha_{ij} = \dfrac{exp(e_{ij})}{\sum_{k=1}^{T_x} exp(e_{ik})}
+\end{equation}</p>
+
+<p>The context vector \(c_i\) is then computed as the weighted sum of the annotations \(h_i\)</p>
+
+<p>\begin{equation}
+c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_i
+\end{equation}</p>
+
+<p>Although in the diagram above, we show only for one context vector, this operation is done for each step of the decoder generation phase. Section 3.1 of <d-cite key="bahdanau2014neural"></d-cite> has in detail description of what these values mean and how one can intuitively think of them.</p>
+
+<h3 id="global-vs-local-attention">Global v/s Local attention</h3>
+
+<p>In <d-cite key="luong2015effective"></d-cite>, the authors explore two different types of attention mechanisms. When you attend to all the words in the input, its called global or soft attention. On the other hand, when the attention mechanism focuses on a small window of context, its called local attention. Hard attention is a modification to local, where the window size is one ie. we focus only on one hidden state to generate the context vector. While less expensive during inference, the hard attention model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. We will explore this topic in detail later.</p>
+
+<h2 id="self-attention">Self-Attention</h2>
+
+<p>One of the most important building block leading upto the transformer is self-attention.</p>
+
+<h2 id="transformers">Transformers</h2>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[getting to transformers through machine translation and attention]]></summary></entry></feed>
