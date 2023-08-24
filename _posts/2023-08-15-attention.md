@@ -43,4 +43,52 @@ The drawback of compressing all of the input information in a fixed length vecto
 
 ## Attention-based Models
 
-Attention-based models address the above problem by <i>looking</i> at the entire input sequence before generating a new word. As mentioned in <d-cite key="bahdanau2014neural"></d-cite>, each time the model generates a new word, it (soft-)searches for a set of positions in a source sentence where most relevant information is concentrated. The model then predicts the target word based on the context vectors and the previous generated target word. Let's explore this a bit.
+Attention-based models address the above problem by <i>looking</i> at the entire input sequence before generating a new word. As mentioned in <d-cite key="bahdanau2014neural"></d-cite>, each time the model generates a new word, it (soft-)searches for a set of positions in a source sentence where most relevant information is concentrated. The model then predicts the target word based on the context vectors and the previous generated target word. This is shown in the figure below (blue block). Let's explore this a bit.
+
+<div class="col-sm mt-3 mt-md-0">
+    {% include figure.html path="assets/img/blog/b1-rnn-attention.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+</div>
+<div class="caption">
+    Encoder-Decoder architecture with attention
+</div>
+
+### Attention block
+
+Let's explore the attention block in a bit more detail. The inputs to this block while decoding at time $$t$$ are the encoder hidden states $$(h_1, h_2, ... h_n)$$ and the previous decoder hidden state $$s_{t-1}$$. The output is a context-vector $$c_t$$ which is input along with the input token to the decoder. This is shown in the figure below
+
+<div class="col-sm mt-3 mt-md-0">
+    {% include figure.html path="assets/img/blog/b1-attention-block.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+</div>
+<div class="caption">
+    Attention block
+</div>
+
+First, we compute scores ($$e_{ij}$$) using the alignment model.
+
+\begin{equation}
+e_{ij} = a(s_{j-1}, h_j)
+\end{equation}
+
+It tells us how well the inputs around position $$j$$ and the output at position $$i$$ match. Then we pass the scores through a softmax function to compute the weight $$\alpha_{ij}$$ of each $$h_j$$.
+
+\begin{equation}
+\alpha_{ij} = \dfrac{exp(e_{ij})}{\sum_{k=1}^{T_x} exp(e_{ik})}
+\end{equation}
+
+The context vector $$c_i$$ is then computed as the weighted sum of the annotations $$h_i$$
+
+\begin{equation}
+c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_i
+\end{equation}
+
+Although in the diagram above, we show only for one context vector, this operation is done for each step of the decoder generation phase. Section 3.1 of <d-cite key="bahdanau2014neural"></d-cite> has in detail description of what these values mean and how one can intuitively think of them.
+
+### Global v/s Local attention
+
+In <d-cite key="luong2015effective"></d-cite>, the authors explore two different types of attention mechanisms. When you attend to all the words in the input, its called global or soft attention. On the other hand, when the attention mechanism focuses on a small window of context, its called local attention. Hard attention is a modification to local, where the window size is one ie. we focus only on one hidden state to generate the context vector. While less expensive during inference, the hard attention model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. We will explore this topic in detail later.
+
+## Self-Attention
+
+One of the most important building block leading upto the transformer is self-attention.
+
+## Transformers
