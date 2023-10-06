@@ -1,18 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-06T01:31:55+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>My personal website.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-06T08:41:22+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>My personal website.
 </subtitle><entry><title type="html">Vision Transformers</title><link href="https://rknambiar.github.io/blog/2023/vit/" rel="alternate" type="text/html" title="Vision Transformers" /><published>2023-08-29T14:14:00+00:00</published><updated>2023-08-29T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/vit</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/vit/"><![CDATA[<p>Let’s explore vision transformers!</p>
 
-<h1 id="background">Background</h1>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="computer-vision" /><summary type="html"><![CDATA[what's up with vision transformers]]></summary></entry><entry><title type="html">from attention to transformers</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="from attention to transformers" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore transformers by understanding the motivation for neural machine translation and attention. Let’s go!</p>
-
-<!-- ---
-local and global attention
-hard and soft attention
-encoder and decoder architecture - rnn with lstm/gru
-output of each decoder instance is a vocabulary sized vector
-make the diagram more expressive/informative
-different score functions for computing attention weights
-is the alignment vector a vector of scalar value? probably a vector for matrix (hidden states) vector (attention) multiplication
-bahdanau soft attention is like global attention.
---- -->
+<h1 id="background">Background</h1>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="computer-vision" /><summary type="html"><![CDATA[what's up with vision transformers]]></summary></entry><entry><title type="html">paying attention to attention</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="paying attention to attention" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore the attention mechanism used in sequence to sequence networks. Let’s go!</p>
 
 <hr />
 
@@ -76,8 +65,9 @@ bahdanau soft attention is like global attention.
 
 <p>Let’s explore the attention block in a bit more detail. The inputs to this block while decoding at time \(t\) are the encoder hidden states \((h_1, h_2, ... h_n)\) and the previous decoder hidden state \(s_{t-1}\). The output is a context-vector \(c_t\) which is input along with the input token to the decoder. This is shown in the figure below</p>
 
-<div class="col-sm mt-3 mt-md-0">
-    <figure>
+<div class="row justify-content-md-center">
+    <div class="col col-8">
+        <figure>
 
   <picture>
     
@@ -93,9 +83,10 @@ bahdanau soft attention is like global attention.
 
 </figure>
 
+    </div>
 </div>
 <div class="caption">
-    Attention block
+    Fig. Attention block
 </div>
 
 <p>First, we compute scores (\(e_{ij}\)) using the alignment model.</p>
@@ -196,4 +187,62 @@ A = softmax(W_{s2}\ tanh(W_{s1}\ H^T))
 
 <h2 id="transformers">Transformers</h2>
 
-<p>Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention in Transformers.</p>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[getting to transformers through machine translation and attention]]></summary></entry></feed>
+<p>Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention (orange block in the fig. below) used in Transformers. Self-attention, as defined is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence.</p>
+
+<div class="row justify-content-md-center">
+    <div class="col col-6">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-transformer-attention-1-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-transformer-attention-1-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-transformer-attention-1-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-transformer-attention-1.jpg" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    Fig. Transformer architecture from <d-cite key="vaswani2017attention"></d-cite>
+</div>
+
+<h3 id="scaled-dot-product-attention">Scaled Dot-Product Attention</h3>
+
+<p>The attention function can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key. The inputs are key and query vectors of dimension \(d_k\) and value of dimension \(d_v\). The dot product between the query and all keys is computed, scaled by a factor of \(\frac{1}{\sqrt{d_k}}\). The softmax function is applied to obtain the weights for computing the linear combination of values.</p>
+
+<p>\begin{equation}
+Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
+\end{equation}</p>
+
+<p>In practice, multiple queries, keys and value are packed as a matrix and the attention is computed as per the above equation. Lets unpack this!</p>
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-transformer-1.gif-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-transformer-1.gif-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-transformer-1.gif-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-transformer-1.gif" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    Fig. Generating Q, K and V from input embedding
+</div>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[Understanding attention mechanism in sequence to sequence networks]]></summary></entry></feed>
