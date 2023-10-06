@@ -1,6 +1,6 @@
 ---
 layout: post
-title: paying attention to transformers
+title: from attention to transformers
 date: 2023-08-15 10:14:00-0400
 description: getting to transformers through machine translation and attention
 categories: attention deep-learning transformers neural-machine-translation
@@ -87,8 +87,48 @@ Although in the diagram above, we show only for one context vector, this operati
 
 In <d-cite key="luong2015effective"></d-cite>, the authors explore two different types of attention mechanisms. When you attend to all the words in the input, its called global or soft attention. On the other hand, when the attention mechanism focuses on a small window of context, its called local attention. Hard attention is a modification to local, where the window size is one ie. we focus only on one hidden state to generate the context vector. While less expensive during inference, the hard attention model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. We will explore this topic in detail later.
 
-## Self-Attention
+### Self-Attention
 
-One of the most important building block leading upto the transformer is self-attention.
+One of the most important building block leading up-to the transformer is self-attention introduced by <d-cite key="lin2017structured"></d-cite> in 2017 as a way to replace the max pooling or averaging step in sequential models. Instead of a single vector representation, this mechanism is performed on top of a sequence model extracting multiple vector representations based on the hidden states of the LSTM. This is explained with an example (Fig. 1) as follows from <d-cite key="lin2017structured"></d-cite>. Of the two parts in this model, the first is a bidirectional LSTM (not covered here) and the second is the self-attention mechanism which we will cover in detail (section 2.1 of the paper).
+
+Let the sentence `S` have `n` tokens represented by their embeddings $$w_i$$ which is a `d` dimensional vector. Thus `S` can be represented as matrix with dimension $$n \times d$$. Let $$h_i$$ be the concatenated hidden state of the LSTM with `2u` dimensions. Therefore, `H` is a matrix of size $$n \times 2u$$.
+
+\begin{equation}
+S = (w_1, w_2, ... , w_n)
+\end{equation}
+
+\begin{equation}
+H = (h_1, h_2, ... , h_n)
+\end{equation}
+
+<div class="col-sm mt-3 mt-md-0">
+    {% include figure.html path="assets/img/blog/b1-self-attention-1.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+</div>
+<div class="caption">
+    Fig. Input embedding and LSTM hidden vectors
+</div>
+
+The aim is to encode this variable sequence into a fixed size embedding. Unlike the previous attention mechanism where we used the decoder hidden state to compute the context vector, here we only use the input hidden states. This is achieved through two linear transformations shown below
+
+<div class="col-sm mt-3 mt-md-0">
+    {% include figure.html path="assets/img/blog/b1-self-attention-2.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+</div>
+<div class="caption">
+    Fig. Self attention mechanism for single and multiple annotation vector
+</div>
+
+The image to the left above shows the transformations for a single annotation vector `a` and the image to the right is for the annotation matrix `A`. The only difference between the two is the we use vector $$w_{s2}$$ for single attention and matrix $$W_{S2}$$ for multiple attention to focus on different parts of the sentence. This is represented by the following equations in the paper
+
+\begin{equation}
+a = softmax(w_{s2}\ tanh(W_{s1}\ H^T))
+\end{equation}
+
+\begin{equation}
+A = softmax(W_{s2}\ tanh(W_{s1}\ H^T))
+\end{equation}
+
+The dimensions of the output during the above transformations are shown in the fig above. We get the embedding vector `m` ($$1 \times 2u$$) and embedding matrix `M` ($$r \times 2u$$) by taking the weighted sum of `H` using `a` and `A` respectively. To solve for redundancy problems the paper mentions a penalization term (section 2.2) which we will not cover here. This builds up to the seminal paper Attention Is All You Need <d-cite key="vaswani2017attention"></d-cite> which proposed the <b>Transformer</b>, a network architecture based only on attention mechanism.
 
 ## Transformers
+
+Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention in Transformers.
