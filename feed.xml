@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-30T06:20:29+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-06T01:31:55+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>My personal website.
 </subtitle><entry><title type="html">Vision Transformers</title><link href="https://rknambiar.github.io/blog/2023/vit/" rel="alternate" type="text/html" title="Vision Transformers" /><published>2023-08-29T14:14:00+00:00</published><updated>2023-08-29T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/vit</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/vit/"><![CDATA[<p>Let’s explore vision transformers!</p>
 
-<h1 id="background">Background</h1>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="computer-vision" /><summary type="html"><![CDATA[what's up with vision transformers]]></summary></entry><entry><title type="html">paying attention to transformers</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="paying attention to transformers" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore transformers by understanding the motivation for neural machine translation and attention. Let’s go!</p>
+<h1 id="background">Background</h1>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="computer-vision" /><summary type="html"><![CDATA[what's up with vision transformers]]></summary></entry><entry><title type="html">from attention to transformers</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="from attention to transformers" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore transformers by understanding the motivation for neural machine translation and attention. Let’s go!</p>
 
 <!-- ---
 local and global attention
@@ -122,8 +122,78 @@ c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_i
 
 <p>In <d-cite key="luong2015effective"></d-cite>, the authors explore two different types of attention mechanisms. When you attend to all the words in the input, its called global or soft attention. On the other hand, when the attention mechanism focuses on a small window of context, its called local attention. Hard attention is a modification to local, where the window size is one ie. we focus only on one hidden state to generate the context vector. While less expensive during inference, the hard attention model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. We will explore this topic in detail later.</p>
 
-<h2 id="self-attention">Self-Attention</h2>
+<h3 id="self-attention">Self-Attention</h3>
 
-<p>One of the most important building block leading upto the transformer is self-attention.</p>
+<p>One of the most important building block leading up-to the transformer is self-attention introduced by <d-cite key="lin2017structured"></d-cite> in 2017 as a way to replace the max pooling or averaging step in sequential models. Instead of a single vector representation, this mechanism is performed on top of a sequence model extracting multiple vector representations based on the hidden states of the LSTM. This is explained with an example (Fig. 1) as follows from <d-cite key="lin2017structured"></d-cite>. Of the two parts in this model, the first is a bidirectional LSTM (not covered here) and the second is the self-attention mechanism which we will cover in detail (section 2.1 of the paper).</p>
 
-<h2 id="transformers">Transformers</h2>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[getting to transformers through machine translation and attention]]></summary></entry></feed>
+<p>Let the sentence <code class="language-plaintext highlighter-rouge">S</code> have <code class="language-plaintext highlighter-rouge">n</code> tokens represented by their embeddings \(w_i\) which is a <code class="language-plaintext highlighter-rouge">d</code> dimensional vector. Thus <code class="language-plaintext highlighter-rouge">S</code> can be represented as matrix with dimension \(n \times d\). Let \(h_i\) be the concatenated hidden state of the LSTM with <code class="language-plaintext highlighter-rouge">2u</code> dimensions. Therefore, <code class="language-plaintext highlighter-rouge">H</code> is a matrix of size \(n \times 2u\).</p>
+
+<p>\begin{equation}
+S = (w_1, w_2, … , w_n)
+\end{equation}</p>
+
+<p>\begin{equation}
+H = (h_1, h_2, … , h_n)
+\end{equation}</p>
+
+<div class="col-sm mt-3 mt-md-0">
+    <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-self-attention-1-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-self-attention-1-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-self-attention-1-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-self-attention-1.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+</div>
+<div class="caption">
+    Fig. Input embedding and LSTM hidden vectors
+</div>
+
+<p>The aim is to encode this variable sequence into a fixed size embedding. Unlike the previous attention mechanism where we used the decoder hidden state to compute the context vector, here we only use the input hidden states. This is achieved through two linear transformations shown below</p>
+
+<div class="col-sm mt-3 mt-md-0">
+    <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-self-attention-2-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-self-attention-2-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-self-attention-2-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-self-attention-2.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+</div>
+<div class="caption">
+    Fig. Self attention mechanism for single and multiple annotation vector
+</div>
+
+<p>The image to the left above shows the transformations for a single annotation vector <code class="language-plaintext highlighter-rouge">a</code> and the image to the right is for the annotation matrix <code class="language-plaintext highlighter-rouge">A</code>. The only difference between the two is the we use vector \(w_{s2}\) for single attention and matrix \(W_{S2}\) for multiple attention to focus on different parts of the sentence. This is represented by the following equations in the paper</p>
+
+<p>\begin{equation}
+a = softmax(w_{s2}\ tanh(W_{s1}\ H^T))
+\end{equation}</p>
+
+<p>\begin{equation}
+A = softmax(W_{s2}\ tanh(W_{s1}\ H^T))
+\end{equation}</p>
+
+<p>The dimensions of the output during the above transformations are shown in the fig above. We get the embedding vector <code class="language-plaintext highlighter-rouge">m</code> (\(1 \times 2u\)) and embedding matrix <code class="language-plaintext highlighter-rouge">M</code> (\(r \times 2u\)) by taking the weighted sum of <code class="language-plaintext highlighter-rouge">H</code> using <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">A</code> respectively. To solve for redundancy problems the paper mentions a penalization term (section 2.2) which we will not cover here. This builds up to the seminal paper Attention Is All You Need <d-cite key="vaswani2017attention"></d-cite> which proposed the <b>Transformer</b>, a network architecture based only on attention mechanism.</p>
+
+<h2 id="transformers">Transformers</h2>
+
+<p>Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention in Transformers.</p>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[getting to transformers through machine translation and attention]]></summary></entry></feed>
