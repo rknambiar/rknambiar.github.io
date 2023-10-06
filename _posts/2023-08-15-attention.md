@@ -1,8 +1,8 @@
 ---
 layout: post
-title: from attention to transformers
+title: paying attention to attention
 date: 2023-08-15 10:14:00-0400
-description: getting to transformers through machine translation and attention
+description: Understanding attention mechanism in sequence to sequence networks
 categories: attention deep-learning transformers neural-machine-translation
 bibliography: 2023-08-15-attention.blog.bib
 giscus_comments: false
@@ -11,18 +11,7 @@ toc:
   sidebar: left
 ---
 
-We explore transformers by understanding the motivation for neural machine translation and attention. Let's go!
-
-<!-- ---
-local and global attention
-hard and soft attention
-encoder and decoder architecture - rnn with lstm/gru
-output of each decoder instance is a vocabulary sized vector
-make the diagram more expressive/informative
-different score functions for computing attention weights
-is the alignment vector a vector of scalar value? probably a vector for matrix (hidden states) vector (attention) multiplication
-bahdanau soft attention is like global attention.
---- -->
+We explore the attention mechanism used in sequence to sequence networks. Let's go!
 
 ---
 
@@ -56,11 +45,13 @@ Attention-based models address the above problem by <i>looking</i> at the entire
 
 Let's explore the attention block in a bit more detail. The inputs to this block while decoding at time $$t$$ are the encoder hidden states $$(h_1, h_2, ... h_n)$$ and the previous decoder hidden state $$s_{t-1}$$. The output is a context-vector $$c_t$$ which is input along with the input token to the decoder. This is shown in the figure below
 
-<div class="col-sm mt-3 mt-md-0">
-    {% include figure.html path="assets/img/blog/b1-attention-block.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+<div class="row justify-content-md-center">
+    <div class="col col-8">
+        {% include figure.html path="assets/img/blog/b1-attention-block.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
 </div>
 <div class="caption">
-    Attention block
+    Fig. Attention block
 </div>
 
 First, we compute scores ($$e_{ij}$$) using the alignment model.
@@ -131,4 +122,32 @@ The dimensions of the output during the above transformations are shown in the f
 
 ## Transformers
 
-Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention in Transformers.
+Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention (orange block in the fig. below) used in Transformers. Self-attention, as defined is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence.
+
+<div class="row justify-content-md-center">
+    <div class="col col-6">
+        {% include figure.html path="assets/img/blog/b1-transformer-attention-1.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Fig. Transformer architecture from <d-cite key="vaswani2017attention"></d-cite>
+</div>
+
+### Scaled Dot-Product Attention
+
+The attention function can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key. The inputs are key and query vectors of dimension $$d_k$$ and value of dimension $$d_v$$. The dot product between the query and all keys is computed, scaled by a factor of $$\frac{1}{\sqrt{d_k}}$$. The softmax function is applied to obtain the weights for computing the linear combination of values.
+
+\begin{equation}
+Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
+\end{equation}
+
+In practice, multiple queries, keys and value are packed as a matrix and the attention is computed as per the above equation. Lets unpack this!
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        {% include figure.html path="assets/img/blog/b1-transformer-1.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Fig. Generating Q, K and V from input embedding
+</div>
