@@ -135,13 +135,28 @@ Introduced in 2017, this topic needs no introduction so we will get right to it.
 
 ### Scaled Dot-Product Attention
 
-The attention function can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key. The inputs are key and query vectors of dimension $$d_k$$ and value of dimension $$d_v$$. The dot product between the query and all keys is computed, scaled by a factor of $$\frac{1}{\sqrt{d_k}}$$. The softmax function is applied to obtain the weights for computing the linear combination of values.
+The attention function (shown below) can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key. 
 
 \begin{equation}
 Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
 \end{equation}
 
-In practice, multiple queries, keys and value are packed as a matrix and the attention is computed as per the above equation. Lets unpack this!
+The inputs are key and query vectors of dimension $$d_k$$ and value of dimension $$d_v$$. The following operations are performed:
+- Take the dot product of $$Q$$ and $$K^T$$
+- Scale it by $$\frac{1}{\sqrt{d_k}}$$
+- Apply softmax to the scaled dot product to obtain weights
+- Compute linear combination of ($$V$$) and weights
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        {% include figure.html path="assets/img/blog/b1-transformer-2.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Fig. Scaled Dot-Product Attention 
+</div>
+
+How do you generate the $$Q, K, V$$ matrices? The output from the embedding layer is $$n$$ tokens of size $$d_{model}$$. To convert to $$d_k$$ we linearly project the embedding vector by a matrix of size $$d_{model} \times d_k$$ shown below. In practice, we group the input vectors before linearly projecting them to obtain the $$Q, K, V$$ matrices.
 
 <div class="row justify-content-md-center">
     <div class="col col-12">
@@ -151,3 +166,39 @@ In practice, multiple queries, keys and value are packed as a matrix and the att
 <div class="caption">
     Fig. Generating Q, K and V from input embedding
 </div>
+
+### Multi-Head Attention
+
+Here we have multiple ($$h$$ ie. number of heads) Scaled Dot-Product Attention blocks running in parallel. Thus we project the queries, keys and values $$h$$ times with different learned linear projections to $$d_k, d_k, d_v$$ dimensions. This is shown in the figure above.
+
+\begin{equation}
+head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
+\end{equation}
+
+where $$W_i^Q \in \mathbb{R}^{d_{model} \times d_k}$$, $$W_i^K \in \mathbb{R}^{d_{model} \times d_k}$$ and $$W_i^V \in \mathbb{R}^{d_{model} \times d_v}$$. Depending on $$h$$ (number of heads), $$d_k = \frac{d_{model}}{h}$$. In the paper, $$h = 8$$ and $$d_k = d_v$$.
+
+Once you have the outputs from each head, you concatenate them and perform a linear projection as follows
+
+\begin{equation}
+MultiHead(Q, K, V) = Concat(head_1, ..., head_h)W^O
+\end{equation}
+
+where $$W^O \in \mathbb{R}^{hd_v \times d_{model}}$$. This is shown below
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        {% include figure.html path="assets/img/blog/b1-transformer-3.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Fig. Multi-Head Attention
+</div>
+
+- Since each head only works on part of the input, the total computational cost is same as that of single-head attention with full dimensionality.
+- To prevent the leftward flow of information and to preserve the auto-regressive property, all the illegal connections are set to $$-\infty$$ pre-softmax. 
+
+For additional details regarding positional encoding, encoder-decoder, training etc. please refer to <d-cite key="vaswani2017attention"></d-cite>.
+
+## Conclusion
+
+The domain of attention and transformer based architectures is a rapidly evolving field with new techniques published at lightning speed so it's impossible to cover everything everywhere all at once. Certainly read the papers mentioned in the references below to dive deeper on this topic. I hope this read has been worth your time. Please do reach out with feedback and questions if any. Thanks!
