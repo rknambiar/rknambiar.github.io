@@ -76,9 +76,13 @@ c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_i
 
 Although in the diagram above, we show only for one context vector, this operation is done for each step of the decoder generation phase. Section 3.1 of <d-cite key="bahdanau2014neural"></d-cite> has in detail description of what these values mean and how one can intuitively think of them.
 
+---
+
 ### Global v/s Local attention
 
 In <d-cite key="luong2015effective"></d-cite>, the authors explore two different types of attention mechanisms. When you attend to all the words in the input, its called global or soft attention. On the other hand, when the attention mechanism focuses on a small window of context, its called local attention. Hard attention is a modification to local, where the window size is one ie. we focus only on one hidden state to generate the context vector. While less expensive during inference, the hard attention model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. We will explore this topic in detail later.
+
+---
 
 ### Self-Attention
 
@@ -122,6 +126,8 @@ A = softmax(W_{s2}\ tanh(W_{s1}\ H^T))
 
 The dimensions of the output during the above transformations are shown in the fig above. We get the embedding vector `m` ($$1 \times 2u$$) and embedding matrix `M` ($$r \times 2u$$) by taking the weighted sum of `H` using `a` and `A` respectively. To solve for redundancy problems the paper mentions a penalization term (section 2.2) which we will not cover here. This builds up to the seminal paper Attention Is All You Need <d-cite key="vaswani2017attention"></d-cite> which proposed the <b>Transformer</b>, a network architecture based only on attention mechanism.
 
+---
+
 ## Transformers
 
 Introduced in 2017, this topic needs no introduction so we will get right to it. Using our understanding of the attention mechanism and sequence-2-sequence networks covered so far, we look at the Scaled Dot-Product Attention and Multi-Head Attention (orange block in the fig. below) used in Transformers. Self-attention, as defined is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence.
@@ -149,25 +155,27 @@ The inputs are key and query vectors of dimension $$d_k$$ and value of dimension
 - Apply softmax to the scaled dot product to obtain weights
 - Compute linear combination of ($$V$$) and weights
 
-<div class="row justify-content-md-center">
-    <div class="col col-12">
-        {% include figure.html path="assets/img/blog/b1-transformer-2.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include video.html path="assets/video/blog/b1-transformer-2.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true %}
     </div>
 </div>
 <div class="caption">
-    Fig. Scaled Dot-Product Attention 
+    Scaled Dot-Product Attention
 </div>
 
 How do you generate the $$Q, K, V$$ matrices? The output from the embedding layer is $$n$$ tokens of size $$d_{model}$$. To convert to $$d_k$$ we linearly project the embedding vector by a matrix of size $$d_{model} \times d_k$$ shown below. In practice, we group the input vectors before linearly projecting them to obtain the $$Q, K, V$$ matrices.
 
-<div class="row justify-content-md-center">
-    <div class="col col-12">
-        {% include figure.html path="assets/img/blog/b1-transformer-1.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include video.html path="assets/video/blog/b1-transformer-1.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true %}
     </div>
 </div>
 <div class="caption">
-    Fig. Generating Q, K and V from input embedding
+    Generating Q, K and V from input embedding
 </div>
+
+---
 
 ### Multi-Head Attention
 
@@ -187,13 +195,13 @@ MultiHead(Q, K, V) = Concat(head_1, ..., head_h)W^O
 
 where $$W^O \in \mathbb{R}^{hd_v \times d_{model}}$$. This is shown below
 
-<div class="row justify-content-md-center">
-    <div class="col col-12">
-        {% include figure.html path="assets/img/blog/b1-transformer-3.gif" class="img-fluid rounded z-depth-1" zoomable=true %}
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include video.html path="assets/video/blog/b1-transformer-3.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true %}
     </div>
 </div>
 <div class="caption">
-    Fig. Multi-Head Attention
+    Multi-Head Attention
 </div>
 
 - Since each head only works on part of the input, the total computational cost is same as that of single-head attention with full dimensionality.
@@ -201,6 +209,8 @@ where $$W^O \in \mathbb{R}^{hd_v \times d_{model}}$$. This is shown below
 
 For additional details regarding positional encoding, encoder-decoder, training etc. please refer to <d-cite key="vaswani2017attention"></d-cite>.
 
+---
+
 ## Conclusion
 
-The domain of attention and transformer based architectures is a rapidly evolving field with new techniques published at lightning speed so it's impossible to cover everything everywhere all at once. Certainly read the papers mentioned in the references below to dive deeper on this topic. I hope this read has been worth your time. Please do reach out with feedback and questions if any. Thanks!
+The domain of attention and transformer based architectures is a rapidly evolving field with new techniques published at lightning speed so it's impossible to cover everything everywhere all at once. Certainly read the papers mentioned in the references below to dive deeper on this topic and I hope this read has been worth your time. Please do reach out with feedback and questions if any. Thanks!
