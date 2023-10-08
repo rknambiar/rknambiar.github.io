@@ -30,6 +30,8 @@ Here, the encoder units are in blue, decoder units in green, input sequences in 
 
 The drawback of compressing all of the input information in a fixed length vector is that the network fails to perform well for long sentences. The performance deteriorates rapidly as the length of the sentence increases <d-cite key="bahdanau2014neural"></d-cite>.
 
+***
+
 ## Attention-based Models
 
 Attention-based models address the above problem by <i>looking</i> at the entire input sequence before generating a new word. As mentioned in <d-cite key="bahdanau2014neural"></d-cite>, each time the model generates a new word, it (soft-)searches for a set of positions in a source sentence where most relevant information is concentrated. The model then predicts the target word based on the context vectors and the previous generated target word. This is shown in the figure below (blue block). Let's explore this a bit.
