@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-06T08:41:22+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>My personal website.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://rknambiar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rknambiar.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-08T00:09:57+00:00</updated><id>https://rknambiar.github.io/feed.xml</id><title type="html">Rohit Nambiar</title><subtitle>My personal website.
 </subtitle><entry><title type="html">Vision Transformers</title><link href="https://rknambiar.github.io/blog/2023/vit/" rel="alternate" type="text/html" title="Vision Transformers" /><published>2023-08-29T14:14:00+00:00</published><updated>2023-08-29T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/vit</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/vit/"><![CDATA[<p>Let’s explore vision transformers!</p>
 
 <h1 id="background">Background</h1>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="computer-vision" /><summary type="html"><![CDATA[what's up with vision transformers]]></summary></entry><entry><title type="html">paying attention to attention</title><link href="https://rknambiar.github.io/blog/2023/attention/" rel="alternate" type="text/html" title="paying attention to attention" /><published>2023-08-15T14:14:00+00:00</published><updated>2023-08-15T14:14:00+00:00</updated><id>https://rknambiar.github.io/blog/2023/attention</id><content type="html" xml:base="https://rknambiar.github.io/blog/2023/attention/"><![CDATA[<p>We explore the attention mechanism used in sequence to sequence networks. Let’s go!</p>
@@ -215,13 +215,45 @@ A = softmax(W_{s2}\ tanh(W_{s1}\ H^T))
 
 <h3 id="scaled-dot-product-attention">Scaled Dot-Product Attention</h3>
 
-<p>The attention function can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key. The inputs are key and query vectors of dimension \(d_k\) and value of dimension \(d_v\). The dot product between the query and all keys is computed, scaled by a factor of \(\frac{1}{\sqrt{d_k}}\). The softmax function is applied to obtain the weights for computing the linear combination of values.</p>
+<p>The attention function (shown below) can be defined as mapping a query and a set of key-value pairs to an output where the output is a weighted sum of the values with weights computed by a function of the query and corresponding key.</p>
 
 <p>\begin{equation}
 Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
 \end{equation}</p>
 
-<p>In practice, multiple queries, keys and value are packed as a matrix and the attention is computed as per the above equation. Lets unpack this!</p>
+<p>The inputs are key and query vectors of dimension \(d_k\) and value of dimension \(d_v\). The following operations are performed:</p>
+<ul>
+  <li>Take the dot product of \(Q\) and \(K^T\)</li>
+  <li>Scale it by \(\frac{1}{\sqrt{d_k}}\)</li>
+  <li>Apply softmax to the scaled dot product to obtain weights</li>
+  <li>Compute linear combination of (\(V\)) and weights</li>
+</ul>
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-transformer-2.gif-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-transformer-2.gif-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-transformer-2.gif-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-transformer-2.gif" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    Fig. Scaled Dot-Product Attention 
+</div>
+
+<p>How do you generate the \(Q, K, V\) matrices? The output from the embedding layer is \(n\) tokens of size \(d_{model}\). To convert to \(d_k\) we linearly project the embedding vector by a matrix of size \(d_{model} \times d_k\) shown below. In practice, we group the input vectors before linearly projecting them to obtain the \(Q, K, V\) matrices.</p>
 
 <div class="row justify-content-md-center">
     <div class="col col-12">
@@ -245,4 +277,57 @@ Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
 </div>
 <div class="caption">
     Fig. Generating Q, K and V from input embedding
-</div>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[Understanding attention mechanism in sequence to sequence networks]]></summary></entry></feed>
+</div>
+
+<h3 id="multi-head-attention">Multi-Head Attention</h3>
+
+<p>Here we have multiple (\(h\) ie. number of heads) Scaled Dot-Product Attention blocks running in parallel. Thus we project the queries, keys and values \(h\) times with different learned linear projections to \(d_k, d_k, d_v\) dimensions. This is shown in the figure above.</p>
+
+<p>\begin{equation}
+head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
+\end{equation}</p>
+
+<p>where \(W_i^Q \in \mathbb{R}^{d_{model} \times d_k}\), \(W_i^K \in \mathbb{R}^{d_{model} \times d_k}\) and \(W_i^V \in \mathbb{R}^{d_{model} \times d_v}\). Depending on \(h\) (number of heads), \(d_k = \frac{d_{model}}{h}\). In the paper, \(h = 8\) and \(d_k = d_v\).</p>
+
+<p>Once you have the outputs from each head, you concatenate them and perform a linear projection as follows</p>
+
+<p>\begin{equation}
+MultiHead(Q, K, V) = Concat(head_1, …, head_h)W^O
+\end{equation}</p>
+
+<p>where \(W^O \in \mathbb{R}^{hd_v \times d_{model}}\). This is shown below</p>
+
+<div class="row justify-content-md-center">
+    <div class="col col-12">
+        <figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/b1-transformer-3.gif-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/b1-transformer-3.gif-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/b1-transformer-3.gif-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/b1-transformer-3.gif" class="img-fluid rounded z-depth-1" width="auto" height="auto" data-zoomable="" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture>
+
+</figure>
+
+    </div>
+</div>
+<div class="caption">
+    Fig. Multi-Head Attention
+</div>
+
+<ul>
+  <li>Since each head only works on part of the input, the total computational cost is same as that of single-head attention with full dimensionality.</li>
+  <li>To prevent the leftward flow of information and to preserve the auto-regressive property, all the illegal connections are set to \(-\infty\) pre-softmax.</li>
+</ul>
+
+<p>For additional details regarding positional encoding, encoder-decoder, training etc. please refer to <d-cite key="vaswani2017attention"></d-cite>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The domain of attention and transformer based architectures is a rapidly evolving field with new techniques published at lightning speed so it’s impossible to cover everything everywhere all at once. Certainly read the papers mentioned in the references below to dive deeper on this topic. I hope this read has been worth your time. Please do reach out with feedback and questions if any. Thanks!</p>]]></content><author><name></name></author><category term="attention" /><category term="deep-learning" /><category term="transformers" /><category term="neural-machine-translation" /><summary type="html"><![CDATA[Understanding attention mechanism in sequence to sequence networks]]></summary></entry></feed>
