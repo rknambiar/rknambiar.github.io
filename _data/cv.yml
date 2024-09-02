@@ -1,9 +1,15 @@
 - title: Experience
   type: time_table
   contents:
+    - title: Research Software Engineer
+      institution: Apple
+      year: Jan'24 - Present
+      description:
+        - Building fun stuff on the  Vision Pro
+
     - title: CVML Research Engineer II
       institution: Tangible Play (Osmo)
-      year: Jul'19 - Present
+      year: Jul'19 - Dec'23
       description:
         - Building interactive educational games using computer vision
           and machine learning for kids. Some of the math games that I worked
